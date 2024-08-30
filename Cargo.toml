@@ -3,5 +3,11 @@ name = "eframe_template"
 version = "0.1.0"
 edition = "2021"
 
+[profile.release] # https://github.com/johnthagen/min-sized-rust
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+
 [dependencies]
-eframe = { version = "*", default-features = false, features = ["glow", "default_fonts"] }
+eframe = { version = "0.28.1", default-features = false, features = ["glow", "default_fonts"] }
