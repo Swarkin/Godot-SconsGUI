@@ -1,5 +1,3 @@
-# currently supported compilation options
-
 [options.platform]
 description = "Target platform"
 values = ["windows"]
