@@ -9,5 +9,5 @@ pub use setup::SetupState;
 
 use crate::app::AppState;
 use eframe::egui;
-use egui::{Button, Color32, Context, Frame, Stroke, TextEdit, Vec2};
+use egui::{Align, Button, Color32, Context, Frame, Layout, Stroke, TextEdit, Vec2};
 use egui::{CentralPanel, ScrollArea, TopBottomPanel};

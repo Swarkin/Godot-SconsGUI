@@ -1,5 +1,6 @@
 use super::*;
 use crate::{OptionDetail, Options};
+use eframe::egui::Label;
 use std::collections::HashMap;
 use std::process::Command;
 use std::sync::mpsc::{channel, Receiver};
@@ -24,7 +25,6 @@ pub struct SetupState {
 
 impl SetupState {
 	fn compute_command(&mut self) {
-		println!("Recomp");
 		let mut cmd = String::from("scons");
 		for (k, v) in &self.changes {
 			cmd += &format!(" {k}={v}");
@@ -48,9 +48,16 @@ pub fn show(state: &mut SetupState, ctx: &Context) -> Option<AppState> {
 					.fill(Color32::from_rgb(22, 22, 22))
 					.stroke(Stroke::new(2., Color32::from_rgb(15, 15, 15)))
 					.show(ui, |ui| {
-						ui.allocate_space(Vec2::new(ui.available_width(), 0.));
+						//ui.allocate_space(Vec2::new(ui.available_width(), 0.));
+						
 						let text = egui::RichText::new(&state.cmd).monospace();
-						ui.label(text);
+						let label = Label::new(text);
+						ui.add_sized(Vec2::new(ui.available_width() - ui.spacing().item_spacing.x - 40., f32::INFINITY), label);
+
+						if ui.add_sized(Vec2::new(ui.available_width(), f32::INFINITY), Button::new("📋")).clicked() {
+							ui.ctx().copy_text(state.cmd.clone());
+						}
+
 					});
 			});
 			ui.allocate_space(Vec2::new(0., ui.available_height()));
@@ -156,7 +163,6 @@ pub fn show(state: &mut SetupState, ctx: &Context) -> Option<AppState> {
 										state.changes.remove(k);
 									}
 								}
-
 							} else {
 								let mut value = String::new();
 								if ui.add(TextEdit::singleline(&mut value).hint_text(v.default.as_ref().unwrap_or(&"".into())).desired_width(f32::INFINITY)).changed() {
