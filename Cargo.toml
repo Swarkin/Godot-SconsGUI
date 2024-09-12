@@ -13,3 +13,4 @@ panic = "abort"
 eframe = { version = "0.28.1", default-features = false, features = ["glow", "default_fonts"] }
 serde = { version = "1.0", features = ["derive"] }
 indexmap = "2.5.0"
+rfd = "0.14.1"

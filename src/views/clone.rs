@@ -4,6 +4,7 @@ use std::sync::mpsc::Receiver;
 
 #[derive(Debug, Default)]
 pub struct CloneState {
+	pub path: String,
 	pub rx: Option<Receiver<i32>>,
 	pub status: Option<i32>,
 }
@@ -21,6 +22,7 @@ pub fn show(state: &mut CloneState, ctx: &egui::Context) -> Option<AppState> {
 					let (tx, rx) = std::sync::mpsc::channel::<i32>();
 					state.rx = Some(rx);
 
+					let path = state.path.clone();
 					std::thread::spawn(move || {
 						let status = Command::new("git")
 							.args([
@@ -31,7 +33,7 @@ pub fn show(state: &mut CloneState, ctx: &egui::Context) -> Option<AppState> {
 								"4.3-stable",
 								"https://github.com/godotengine/godot",
 							])
-							.current_dir("D:/Godot/test")
+							.current_dir(path)
 							.status()
 							.unwrap()
 							.code()
@@ -62,7 +64,7 @@ pub fn show(state: &mut CloneState, ctx: &egui::Context) -> Option<AppState> {
 
 					let btn = Button::new("Continue ➡");
 					if ui.add_sized(Vec2::new(100., 40.), btn).clicked() {
-						return Some(AppState::setup());
+						return Some(AppState::Setup(SetupState { path: state.path.clone(), ..Default::default()}));
 					}
 				} else {
 					ui.add_space(10.);

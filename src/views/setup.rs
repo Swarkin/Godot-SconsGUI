@@ -1,6 +1,5 @@
 use super::*;
 use crate::{OptionDetail, Options};
-use eframe::egui::Label;
 use std::collections::HashMap;
 use std::process::Command;
 use std::sync::mpsc::{channel, Receiver};
@@ -18,6 +17,7 @@ pub enum SetupScreen {
 
 #[derive(Debug, Default)]
 pub struct SetupState {
+	pub path: String,
 	pub changes: Changes,
 	pub cmd: String,
 	pub screen: SetupScreen,
@@ -27,14 +27,13 @@ impl SetupState {
 	fn compute_command(&mut self) {
 		let mut cmd = String::from("scons");
 		for (k, v) in &self.changes {
-			cmd += &format!(" {k}={v}");
+			cmd += &format!(" {k}={}", v.replace(' ', "_"));
 		}
 		self.cmd = cmd;
 	}
 }
 
 pub fn show(state: &mut SetupState, ctx: &Context) -> Option<AppState> {
-	//state.compute_command();
 	TopBottomPanel::bottom("cmd")
 		.max_height(150.)
 		.resizable(true)
@@ -42,40 +41,39 @@ pub fn show(state: &mut SetupState, ctx: &Context) -> Option<AppState> {
 			ScrollArea::vertical().show(ui, |ui| {
 				ui.add_space(6.);
 
-				Frame::default()
-					.inner_margin(6.)
-					.rounding(6.)
-					.fill(Color32::from_rgb(22, 22, 22))
-					.stroke(Stroke::new(2., Color32::from_rgb(15, 15, 15)))
-					.show(ui, |ui| {
-						//ui.allocate_space(Vec2::new(ui.available_width(), 0.));
-						
-						let text = egui::RichText::new(&state.cmd).monospace();
-						let label = Label::new(text);
-						ui.add_sized(Vec2::new(ui.available_width() - ui.spacing().item_spacing.x - 40., f32::INFINITY), label);
+				ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
+					if ui.button("📋 Copy").clicked() {
+						ui.ctx().copy_text(state.cmd.clone());
+					}
+					Frame::default()
+						.inner_margin(6.)
+						.rounding(6.)
+						.fill(Color32::from_rgb(22, 22, 22))
+						.stroke(Stroke::new(2., Color32::from_rgb(15, 15, 15)))
+						.show(ui, |ui| {
+							let text = egui::RichText::new(&state.cmd).monospace();
+							ui.add_sized(ui.available_size(), Label::new(text));
+						});
+				});
 
-						if ui.add_sized(Vec2::new(ui.available_width(), f32::INFINITY), Button::new("📋")).clicked() {
-							ui.ctx().copy_text(state.cmd.clone());
-						}
-
-					});
 			});
-			ui.allocate_space(Vec2::new(0., ui.available_height()));
 		});
 	CentralPanel::default().show(ctx, |ui| {
 		ScrollArea::vertical()
 			.auto_shrink(false)
 			.show(ui, |ui| {
+				ui.label(&state.path);
 				match &state.screen {
 					SetupScreen::Start => {
 						let btn = Button::new("Load compilation options");
 						if ui.add_sized(Vec2::new(200., 30.), btn).clicked() {
 							let (tx, rx) = channel();
-							
+
+							let path = state.path.clone() + "/godot";
 							spawn(move || {
 								let output = Command::new("scons")
 									.arg("--help")
-									.current_dir("D:/Godot/test/godot")
+									.current_dir(path)
 									.output()
 									.unwrap();
 

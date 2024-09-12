@@ -2,7 +2,6 @@
 
 mod app;
 mod options;
-mod states;
 mod views;
 
 use eframe::egui;

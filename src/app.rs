@@ -7,17 +7,18 @@ pub struct GodotSconsGUI {
 	state: AppState,
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub enum AppState {
-	#[default] Start,
+	Start(StartState),
 	Clone(CloneState),
 	Setup(SetupState),
 	Build(BuildState),
 }
 
+
 impl AppState {
 	pub fn start() -> Self {
-		AppState::Start
+		AppState::Start(Default::default())
 	}
 	pub fn clone() -> Self {
 		AppState::Clone(Default::default())
@@ -27,6 +28,12 @@ impl AppState {
 	}
 	pub fn build() -> Self {
 		AppState::Build(Default::default())
+	}
+}
+
+impl Default for AppState {
+	fn default() -> Self {
+		Self::Start(Default::default())
 	}
 }
 
@@ -60,14 +67,14 @@ impl eframe::App for GodotSconsGUI {
 		}
 
 		let new_state = match &mut self.state {
-			AppState::Start => start::show(ctx),
+			AppState::Start(state) => start::show(state, ctx),
 			AppState::Clone(state) => clone::show(state, ctx),
 			AppState::Setup(state) => setup::show(state, ctx),
 			AppState::Build(state) => build::show(state, ctx),
 		};
 
 		if let Some(s) = new_state {
-			println!("Transitioning to {s:?}");
+			#[cfg(debug_assertions)] println!("Transitioning to {s:?}");
 			self.state = s;
 		}
 	}
