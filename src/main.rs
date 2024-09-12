@@ -1,7 +1,12 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 mod app;
+mod options;
+mod views;
+
 use eframe::egui;
+use indexmap::IndexMap;
+
 
 fn main() -> eframe::Result {
 	let native_options = eframe::NativeOptions {
@@ -11,8 +16,23 @@ fn main() -> eframe::Result {
 		..Default::default()
 	};
 	eframe::run_native(
-		"eframe template",
+		"godot-scons-gui",
 		native_options,
-		Box::new(|cc| Ok(Box::new(app::TemplateApp::new(cc)))),
+		Box::new(|cc| Ok(Box::new(app::GodotSconsGUI::new(cc)))),
 	)
+}
+
+#[derive(Debug, Default)]
+struct Options {
+	pub options: IndexMap<String, OptionDetail>,
+	// todo: categories
+}
+
+#[derive(Debug, Default)]
+struct OptionDetail {
+	pub description: String,
+	pub values: Vec<String>,
+	pub default: Option<String>,
+	pub actual: Option<String>,
+	pub aliases: Vec<String>,
 }

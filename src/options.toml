@@ -1,0 +1,204 @@
+[options.platform]
+description = "Target platform"
+values = ["windows"]
+default = ""
+
+[options.target]
+description = "Compilation target"
+values = ["editor", "template_release", "template_debug"]
+default = "editor"
+
+[options.arch]
+description = "CPU architecture"
+values = ["auto", "x86_32", "x86_64", "arm32", "arm64", "rv64", "ppc32", "ppc64", "wasm32"]
+default = "auto"
+
+[options.dev_build]
+description = "Developer build"
+values = ["yes", "no"]
+default = "no"
+
+[options.optimize]
+description = "Optimization level"
+values = ["none", "custom", "debug", "speed", "speed_trace", "size"]
+default = "speed_trace"
+
+[options.debug_symbols]
+description = "Build with debugging symbols"
+values = ["yes", "no"]
+default = "no"
+
+[options.separate_debug_symbols]
+description = "Extract debugging symbols to a separate file"
+values = ["yes", "no"]
+default = "no"
+
+[options.lto]
+description = "Link-time optimization"
+values = ["none", "auto", "thin", "full"]
+default = "none"
+
+[options.production]
+description = "Set defaults to build Godot for use in production"
+values = ["yes", "no"]
+default = "no"
+
+[options.deprecated]
+description = "Enable compatibility code for deprecated and removed options"
+values = ["yes", "no"]
+default = "yes"
+
+[options.precision]
+description = "Set the floating-point precision level"
+values = ["single", "double"]
+default = "single"
+
+[options.minizip]
+description = "Enable ZIP archive support using minizip"
+values = ["yes", "no"]
+default = "yes"
+
+[options.brotli]
+description = "Enable Brotli for decompresson and WOFF2 fonts support"
+values = ["yes", "no"]
+default = "yes"
+
+[options.xaudio2]
+description = "Enable the XAudio2 audio driver"
+values = ["yes", "no"]
+default = "no"
+
+[options.vulkan]
+description = "Enable the vulkan rendering driver"
+values = ["yes", "no"]
+default = "yes"
+
+[options.opengl3]
+description = "Enable the OpenGL/GLES3 rendering driver"
+values = ["yes", "no"]
+default = "yes"
+
+[options.openxr]
+description = "Enable the OpenXR driver"
+values = ["yes", "no"]
+default = "yes"
+
+[options.use_volk]
+description = "Use the volk library to load the Vulkan loader dynamically"
+values = ["yes", "no"]
+default = "yes"
+
+[options.disable_exceptions]
+description = "Force disabling exception handling code"
+values = ["yes", "no"]
+default = "yes"
+
+[options.custom_modules]
+description = "A list of comma-separated directory paths containing custom modules to build."
+values = []
+default = ""
+
+[options.custom_modules_recursive]
+description = "Detect custom modules recursively for each specified path."
+values = ["yes", "no"]
+default = "yes"
+
+[options.dev_mode]
+description = "Alias for dev options: verbose=yes warnings=extra werror=yes tests=yes"
+values = ["yes", "no"]
+default = "no"
+
+[options.tests]
+description = "Build the unit tests"
+values = ["yes", "no"]
+default = "no"
+
+[options.fast_unsafe]
+description = "Enable unsafe options for faster rebuilds"
+values = ["yes", "no"]
+default = "no"
+
+[options.compiledb]
+description = "Generate compilation DB (`compile_commands.json`) for external tools"
+values = ["yes", "no"]
+default = "no"
+
+[options.verbose]
+description = "Enable verbose output for the compilation"
+values = ["yes", "no"]
+default = "no"
+
+[options.progress]
+description = "Show a progress indicator during compilation"
+values = ["yes", "no"]
+default = "yes"
+
+[options.warnings]
+description = "Level of compilation warnings"
+values = ["extra", "all", "moderate", "no"]
+default = "all"
+
+[options.werror]
+description = "Treat compiler warnings as errors"
+values = ["yes", "no"]
+default = "no"
+
+[options.extra_suffix]
+description = "Custom extra suffix added to the base filename of all generated binary files"
+values = []
+default = ""
+
+[options.vsproj]
+description = "Generate a Visual Studio solution"
+values = ["yes", "no"]
+default = "no"
+
+[options.vsproj_name]
+description = "Name of the Visual Studio solution"
+values = []
+default = "godot"
+
+[options.disable_3d]
+description = "Disable 3D nodes for a smaller executable"
+values = ["yes", "no"]
+default = "no"
+
+[options.disable_advanced_gui]
+description = "Disable advanced GUI nodes and behaviors"
+values = ["yes", "no"]
+default = "no"
+
+[options.build_profile]
+description = "Path to a file containing a feature build profile"
+values = []
+default = ""
+
+[options.modules_enabled_by_default]
+description = "If no, disable all modules except ones explicitly enabled"
+values = ["yes", "no"]
+default = "yes"
+
+[options.no_editor_splash]
+description = "Don't use the custom splash screen for the editor"
+values = ["yes", "no"]
+default = "yes"
+
+[options.system_certs_path]
+description = "Use this path as TLS certificates default for editor and Linux/BSD export templates (for package maintainers)"
+values = []
+default = ""
+
+[options.use_precise_math_checks]
+description = "Math checks use very precise epsilon (debug option)"
+values = ["yes", "no"]
+default = "no"
+
+[options.scu_build]
+description = "Use single compilation unit build"
+values = ["yes", "no"]
+default = "no"
+
+[options.scu_limit]
+description = "Max includes per SCU file when using scu_build (determines RAM use)"
+values = []
+default = "0"
