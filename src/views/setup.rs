@@ -1,11 +1,11 @@
 use super::*;
 use crate::{OptionDetail, Options};
-use std::collections::HashMap;
+use indexmap::IndexMap;
 use std::process::Command;
 use std::sync::mpsc::{channel, Receiver};
 use std::thread::spawn;
 
-pub type Changes = HashMap<String, String>;
+pub type Changes = IndexMap<String, String>;
 
 #[derive(Debug, Default)]
 pub enum SetupScreen {
@@ -158,7 +158,7 @@ pub fn show(state: &mut SetupState, ctx: &Context) -> Option<AppState> {
 								if ui.add(TextEdit::singleline(value).desired_width(f32::INFINITY)).changed() {
 									recompute_cmd = true;
 									if value.trim_ascii().is_empty() {
-										state.changes.remove(k);
+										state.changes.shift_remove(k);
 									}
 								}
 							} else {
